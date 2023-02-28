@@ -27,8 +27,14 @@ paths:
             schema:
               $ref: "#/components/schemas/ApiConfiguration"
       responses:
-        "405":
+        "400":
           description: Invalid input
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationError"
         "409":
           description: An API with this name already exists
     put:
@@ -45,8 +51,14 @@ paths:
       responses:
         "404":
           description: API not found with the given name
-        "405":
+        "400":
           description: Validation exception
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationError"
     get:
       tags:
         - configure
@@ -251,3 +263,15 @@ components:
           type: boolean
         output_type:
           type: string
+    ValidationError:
+      type: object
+      properties:
+        field:
+          type: string
+          example: url
+        tag:
+          type: string
+          example: url
+        value:
+          type: string
+          example: htp/malformed_url

@@ -6,7 +6,10 @@ import (
 	"log"
 )
 
-func ApiDetailsHandler(c *fiber.Ctx) error {
+type ApiDetailsHandler struct {
+}
+
+func (h ApiDetailsHandler) HandleApiDetails(c *fiber.Ctx) error {
 	apiName := utils.CopyString(c.Params("name"))
 	log.Println(apiName)
 	return nil

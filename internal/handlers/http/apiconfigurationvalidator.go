@@ -7,9 +7,9 @@ import (
 )
 
 type IError struct {
-	Field string
-	Tag   string
-	Value string
+	Field string `json:"field"`
+	Tag   string `json:"tag"`
+	Value string `json:"value"`
 }
 
 var Validator = validator.New()

@@ -5,7 +5,10 @@ import (
 	"slurp-server/internal/core/ports"
 )
 
-func UpdateApiHandler(c *fiber.Ctx) error {
+type UpdateApiHandler struct {
+}
+
+func (h UpdateApiHandler) HandleUpdateApi(c *fiber.Ctx) error {
 	body := new(ports.ApiConfiguration)
 	c.BodyParser(&body)
 	return nil

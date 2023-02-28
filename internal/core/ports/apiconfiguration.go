@@ -1,6 +1,7 @@
 package ports
 
 type ApiConfiguration struct {
+	Name                  string                   `json:"name" validate:"required"`
 	Url                   string                   `json:"url" validate:"url"`
 	Method                string                   `json:"method" validate:"oneof=GET POST"`
 	AuthConfig            *AuthenticationConfig    `json:"auth" validate:"omitempty,dive"`

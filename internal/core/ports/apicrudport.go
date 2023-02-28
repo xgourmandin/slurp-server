@@ -1,8 +1,8 @@
 package ports
 
 type ApiCrud interface {
-	CreateApi(config ApiConfiguration)
-	UpdateApi(config ApiConfiguration)
-	GetApi(name string) ApiConfiguration
-	ListApi() []ApiResume
+	CreateApi(config ApiConfiguration) error
+	UpdateApi(config ApiConfiguration) error
+	GetApi(name string) (*ApiConfiguration, error)
+	ListApi() (*[]ApiResume, error)
 }

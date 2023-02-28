@@ -2,6 +2,9 @@ package http
 
 import "github.com/gofiber/fiber/v2"
 
-func ApiListHandler(c *fiber.Ctx) error {
+type ApiListHandler struct {
+}
+
+func (h ApiListHandler) HandleApiList(c *fiber.Ctx) error {
 	return nil
 }

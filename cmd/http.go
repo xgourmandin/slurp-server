@@ -11,14 +11,21 @@ func main() {
 	app := fiber.New()
 	app.Use(recover.New())
 
+	apiListHandler := http.ApiListHandler{}
+	createApiHandler := http.CreateApiHandler{}
+	updateApiHandler := http.UpdateApiHandler{}
+	apiDetailHandler := http.ApiDetailsHandler{}
+
 	api := app.Group("/api")
-	api.Get("/", http.ApiListHandler)
-	api.Post("/", http.ValidateApiConfig, http.CreateApiHandler)
-	api.Put("/", http.ValidateApiConfig, http.UpdateApiHandler)
-	api.Get("/:name", http.ApiDetailsHandler)
+	api.Get("/", apiListHandler.HandleApiList)
+	api.Post("/", http.ValidateApiConfig, createApiHandler.HandleCreateApi)
+	api.Put("/", http.ValidateApiConfig, updateApiHandler.HandleUpdateApi)
+	api.Get("/:name", apiDetailHandler.HandleApiDetails)
+
+	createSlurpHandler := http.CreateSlurpHandler{}
 
 	slurp := app.Group("/slurp")
-	slurp.Post("/:name", http.CreateSlurpHandler)
+	slurp.Post("/:name", createSlurpHandler.HandleCreateSlurp)
 
 	log.Fatal(app.Listen(":3000"))
 }

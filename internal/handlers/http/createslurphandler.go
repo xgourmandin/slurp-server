@@ -6,7 +6,10 @@ import (
 	"log"
 )
 
-func CreateSlurpHandler(c *fiber.Ctx) error {
+type CreateSlurpHandler struct {
+}
+
+func (h CreateSlurpHandler) HandleCreateSlurp(c *fiber.Ctx) error {
 	apiName := utils.CopyString(c.Params("name"))
 	log.Println(apiName)
 	return nil
