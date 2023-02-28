@@ -1,0 +1,253 @@
+openapi: 3.0.0
+info:
+  description: "This is the Slurp Server API. You can use it to trigger actions or configure the product."
+  version: 1.0.0
+  title: Slurp Server
+  contact:
+    email: xavier.gourmandin@stack-labs.com
+  license:
+    name: GNU GPL 3.0
+    url: https://www.gnu.org/licenses/gpl-3.0.html
+tags:
+  - name: configure
+    description: Configure everything in Slurp
+  - name: slurp
+    description: Dump a configured API to your target
+paths:
+  /api:
+    post:
+      tags:
+        - configure
+      summary: Add a new API configuration
+      description: "Configure a new API that you will slurp"
+      operationId: addApi
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApiConfiguration"
+      responses:
+        "405":
+          description: Invalid input
+        "409":
+          description: An API with this name already exists
+    put:
+      tags:
+        - configure
+      summary: Update an existing API configuration
+      description: "Update the parameters of an existing API configuration"
+      operationId: updateApi
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApiConfiguration"
+      responses:
+        "404":
+          description: API not found with the given name
+        "405":
+          description: Validation exception
+    get:
+      tags:
+        - configure
+      summary: Get all APIs configuration
+      description: Get all APIS configuration with pagination available
+      operationId: getApis
+      responses:
+        "200":
+          description: A list of APIs with only some information about them
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ApiInfo"
+  /api/{name}:
+    get:
+      tags:
+        - configure
+      summary: Get Api configuration
+      description: Get full information about a given API
+      operationId: getApi
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: The name of the API configuration to retrieve
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Complete information about an API configuration
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiConfiguration"
+  /slurp/{name}:
+    post:
+      tags:
+        - slurp
+      summary: Launch an API slurp
+      description: Launch a task that will slurp the given API following its configuration
+      operationId: slurp
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: The name of the API configuration to slurp
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Task is submitted successfully
+        "404":
+          description: No API with the given name
+
+servers:
+  - url: https://localhost
+components:
+  schemas:
+    ApiConfiguration:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Unique name of the Api configuration
+          example: my-api
+        url:
+          type: string
+          example: https://api.com
+        method:
+          type: string
+          example: GET
+          enum:
+            - GET
+            - POST
+        auth:
+          $ref: "#/components/schemas/AuthConfiguration"
+        pagination:
+          $ref: "#/components/schemas/PaginationConfiguration"
+        data:
+          $ref: "#/components/schemas/DataConfiguration"
+        additional_headers:
+          type: object
+          additionalProperties:
+            type: string
+        additional_query_params:
+          type: object
+          additionalProperties:
+            type: string
+        output:
+          $ref: "#/components/schemas/OutputConfiguration"
+    AuthConfiguration:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - API_KEY
+        in_header:
+          type: boolean
+        token_env:
+          type: string
+          description: Environment variable containing the Api key to add to the request (only used with API_KEY type)
+          example: SVC_API_KEY
+        token_param:
+          description: Name of the parameter containing the token value
+          type: string
+          example: api_key
+      required:
+        - type
+    PaginationConfiguration:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - PAGE_LIMIT
+            - OFFSET_LIMIT
+            - HATEOAS
+        page_param:
+          type: string
+          description: query param for the page (only used with PAGE_LIMIT and PAGE_OFFSET type)
+          example: page
+        limit_param:
+          type: string
+          description: query param for the offset or limit (only used with PAGE_LIMIT and PAGE_OFFSET type)
+          example: limit
+        page_size:
+          type: number
+          description: query param for the page size (only used with PAGE_LIMIT and PAGE_OFFSET type)
+          example: 25
+        next_link_path:
+          type: string
+          description: a JSON Path pointing to the URL of the next page (only used with HATEOAS type)
+          example: $.next
+      required:
+        - type
+    DataConfiguration:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - JSON
+        root:
+          type: string
+          description: the JSON path of the root of the data that will be slurped (can point to a single value or an array)
+          example: $.results
+      required:
+        - type
+        - root
+    OutputConfiguration:
+      type: object
+      description: Configuration of data output (if ignored, data are outputted in the console logs)
+      properties:
+        type:
+          type: string
+          enum:
+            - FILE
+            - BUCKET
+            - BIGQUERY
+        filename:
+          type: string
+          description: The filename where API results will be stored (only used with the FILE or BUCKET type)
+          example: api_out.json
+        bucket:
+          description: The bucket where API results will be stored (only used with the BUCKET type)
+          type: string
+          example: api_bucket
+        project:
+          type: string
+          description: The GCP project where API results will be stored (only used with the BIQUERY type)
+          example: my-project
+        dataset:
+          type: string
+          description: The Bigquery dataset where API results will be stored (only used with the BIQUERY type)
+          example: bq-dataset
+        table:
+          type: string
+          description: The Bigquery table where API results will be stored (only used with the BIQUERY type)
+          example: bq-table
+        autodetect:
+          type: boolean
+          description: Enable/disable BiqQuery schema autodetect (only used with the BIQUERY type, if false, a schema must be set on the BigQuery table)
+      required:
+        - type
+    ApiInfo:
+      type: object
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+        method:
+          type: string
+        data_type:
+          type: string
+        paginated:
+          type: boolean
+        authenticated:
+          type: boolean
+        output_type:
+          type: string
