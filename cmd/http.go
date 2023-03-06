@@ -4,17 +4,21 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"log"
+	"slurp-server/internal/core/usecases"
 	"slurp-server/internal/handlers/http"
+	"slurp-server/internal/handlers/repositories"
 )
 
 func main() {
 	app := fiber.New()
 	app.Use(recover.New())
 
-	apiListHandler := http.ApiListHandler{}
-	createApiHandler := http.CreateApiHandler{}
-	updateApiHandler := http.UpdateApiHandler{}
-	apiDetailHandler := http.ApiDetailsHandler{}
+	apiCrud := usecases.ApiCrud{Repo: repositories.NewInMemoryRepository()}
+
+	apiListHandler := http.ApiListHandler{Crud: apiCrud}
+	createApiHandler := http.CreateApiHandler{Crud: apiCrud}
+	updateApiHandler := http.UpdateApiHandler{Crud: apiCrud}
+	apiDetailHandler := http.ApiDetailsHandler{Crud: apiCrud}
 
 	api := app.Group("/api")
 	api.Get("/", apiListHandler.HandleApiList)

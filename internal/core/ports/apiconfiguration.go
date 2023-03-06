@@ -10,6 +10,7 @@ type ApiConfiguration struct {
 	AdditionalHeaders     map[string]string        `json:"additional_headers"`
 	AdditionalQueryParams map[string]string        `json:"additional_queryparams"`
 	OutputConfig          *OutputConfig            `json:"output" validate:"omitempty,dive"`
+	Active                bool                     `json:"active"`
 }
 
 type DataConfiguration struct {

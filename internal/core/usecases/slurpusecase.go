@@ -2,6 +2,7 @@ package usecases
 
 import (
 	"github.com/xgourmandin/slurp"
+	"github.com/xgourmandin/slurp/configuration"
 	"slurp-server/internal/core/ports"
 )
 
@@ -24,41 +25,41 @@ func (c SlurpUseCase) CreateSlurp(name string) error {
 	return nil
 }
 
-func createSlurpConfiguration(configuration ports.ApiConfiguration) slurp.ApiConfiguration {
-	authConfig := slurp.AuthenticationConfig{
-		AuthType:   configuration.AuthConfig.AuthType,
-		InHeader:   configuration.AuthConfig.InHeader,
-		TokenEnv:   configuration.AuthConfig.TokenEnv,
-		TokenParam: configuration.AuthConfig.TokenParam,
+func createSlurpConfiguration(config ports.ApiConfiguration) configuration.ApiConfiguration {
+	authConfig := configuration.AuthenticationConfig{
+		AuthType:   config.AuthConfig.AuthType,
+		InHeader:   config.AuthConfig.InHeader,
+		TokenEnv:   config.AuthConfig.TokenEnv,
+		TokenParam: config.AuthConfig.TokenParam,
 	}
-	paginationConfig := slurp.PaginationConfiguration{
-		PaginationType: configuration.PaginationConfig.PaginationType,
-		PageParam:      configuration.PaginationConfig.PageParam,
-		LimitParam:     configuration.PaginationConfig.LimitParam,
-		PageSize:       configuration.PaginationConfig.PageSize,
-		NextLinkPath:   configuration.PaginationConfig.NextLinkPath,
+	paginationConfig := configuration.PaginationConfiguration{
+		PaginationType: config.PaginationConfig.PaginationType,
+		PageParam:      config.PaginationConfig.PageParam,
+		LimitParam:     config.PaginationConfig.LimitParam,
+		PageSize:       config.PaginationConfig.PageSize,
+		NextLinkPath:   config.PaginationConfig.NextLinkPath,
 	}
-	dataConfig := slurp.DataConfiguration{
-		DataType: configuration.DataConfig.DataType,
-		DataRoot: configuration.DataConfig.DataRoot,
+	dataConfig := configuration.DataConfiguration{
+		DataType: config.DataConfig.DataType,
+		DataRoot: config.DataConfig.DataRoot,
 	}
-	outputConfig := slurp.OutputConfig{
-		OutputType: configuration.OutputConfig.OutputType,
-		FileName:   configuration.OutputConfig.FileName,
-		BucketName: configuration.OutputConfig.BucketName,
-		Project:    configuration.OutputConfig.Project,
-		Dataset:    configuration.OutputConfig.Dataset,
-		Table:      configuration.OutputConfig.Table,
-		Autodetect: configuration.OutputConfig.Autodetect,
+	outputConfig := configuration.OutputConfig{
+		OutputType: config.OutputConfig.OutputType,
+		FileName:   config.OutputConfig.FileName,
+		BucketName: config.OutputConfig.BucketName,
+		Project:    config.OutputConfig.Project,
+		Dataset:    config.OutputConfig.Dataset,
+		Table:      config.OutputConfig.Table,
+		Autodetect: config.OutputConfig.Autodetect,
 	}
-	return slurp.ApiConfiguration{
-		Url:                   configuration.Url,
-		Method:                configuration.Method,
+	return configuration.ApiConfiguration{
+		Url:                   config.Url,
+		Method:                config.Method,
 		AuthConfig:            authConfig,
 		PaginationConfig:      paginationConfig,
 		DataConfig:            dataConfig,
-		AdditionalHeaders:     configuration.AdditionalHeaders,
-		AdditionalQueryParams: configuration.AdditionalQueryParams,
+		AdditionalHeaders:     config.AdditionalHeaders,
+		AdditionalQueryParams: config.AdditionalQueryParams,
 		OutputConfig:          outputConfig,
 	}
 }

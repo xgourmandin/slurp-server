@@ -7,6 +7,7 @@ type ApiCrud struct {
 }
 
 func (a ApiCrud) CreateApi(config ports.ApiConfiguration) error {
+	config.Active = true
 	return a.Repo.AddApiConfiguration(config)
 }
 
