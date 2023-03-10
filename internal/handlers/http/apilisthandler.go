@@ -16,6 +16,10 @@ func (h ApiListHandler) HandleApiList(c *fiber.Ctx) error {
 		log.Println(err)
 		c.Status(fiber.StatusInternalServerError).JSON(ApiError{Message: err.Error()})
 	}
-	return c.Status(200).JSON(apis)
+	if len(*apis) == 0 {
+		return c.Status(200).JSON([]string{})
+	} else {
+		return c.Status(200).JSON(apis)
+	}
 
 }

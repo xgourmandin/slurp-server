@@ -7,3 +7,9 @@ type ApiConfigurationRepository interface {
 	ListApiConfigurations() (*[]ApiConfiguration, error)
 	GetApiConfiguration(name string) (*ApiConfiguration, error)
 }
+
+type ApiHistoryRepository interface {
+	AddApiHistory(history ApiHistory) error
+	DeleteApiHistory(id string) error
+	ListApiHistories() (*[]ApiHistory, error)
+}

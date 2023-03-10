@@ -8,8 +8,15 @@ import (
 )
 
 type FirestoreApiConfigurationRepository struct {
-	ProjectId  string
-	Collection string
+	ProjectId     string
+	ApiCollection string
+}
+
+func NewFirestoreRepository(projectId string, collectionPrefix string) FirestoreApiConfigurationRepository {
+	return FirestoreApiConfigurationRepository{
+		ProjectId:     projectId,
+		ApiCollection: collectionPrefix + "api-configuration",
+	}
 }
 
 func (f FirestoreApiConfigurationRepository) AddApiConfiguration(configuration ports.ApiConfiguration) error {
@@ -19,7 +26,7 @@ func (f FirestoreApiConfigurationRepository) AddApiConfiguration(configuration p
 		return err
 	}
 	defer client.Close()
-	api := client.Collection(f.Collection).Doc(configuration.Name)
+	api := client.Collection(f.ApiCollection).Doc(configuration.Name)
 	_, err = api.Create(ctx, configuration)
 	if err != nil {
 		return err
@@ -34,7 +41,7 @@ func (f FirestoreApiConfigurationRepository) UpdateApiConfiguration(configuratio
 		return err
 	}
 	defer client.Close()
-	api := client.Collection(f.Collection).Doc(configuration.Name)
+	api := client.Collection(f.ApiCollection).Doc(configuration.Name)
 	_, err = api.Set(ctx, configuration)
 	if err != nil {
 		return err
@@ -49,7 +56,7 @@ func (f FirestoreApiConfigurationRepository) DeleteApiConfiguration(name string)
 		return err
 	}
 	defer client.Close()
-	api := client.Collection(f.Collection).Doc(name)
+	api := client.Collection(f.ApiCollection).Doc(name)
 	_, err = api.Delete(ctx)
 	if err != nil {
 		return err
@@ -64,7 +71,7 @@ func (f FirestoreApiConfigurationRepository) ListApiConfigurations() (*[]ports.A
 		return nil, err
 	}
 	defer client.Close()
-	apis := client.Collection(f.Collection).Documents(ctx)
+	apis := client.Collection(f.ApiCollection).Documents(ctx)
 	var result []ports.ApiConfiguration
 	for {
 		doc, err := apis.Next()
@@ -90,7 +97,7 @@ func (f FirestoreApiConfigurationRepository) GetApiConfiguration(name string) (*
 		return nil, err
 	}
 	defer client.Close()
-	api := client.Collection(f.Collection).Doc(name)
+	api := client.Collection(f.ApiCollection).Doc(name)
 	docSnap, err := api.Get(ctx)
 	if err != nil {
 		return nil, err
@@ -99,7 +106,7 @@ func (f FirestoreApiConfigurationRepository) GetApiConfiguration(name string) (*
 	if err := docSnap.DataTo(&apiStruct); err != nil {
 		return nil, err
 	}
-	return nil, nil
+	return &apiStruct, nil
 }
 
 func (f FirestoreApiConfigurationRepository) getClient(c context.Context) (*firestore.Client, error) {

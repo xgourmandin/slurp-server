@@ -8,4 +8,5 @@ type ApiResume struct {
 	Paginated     bool   `json:"paginated"`
 	Authenticated bool   `json:"authenticated"`
 	OutputType    string `json:"output_type"`
+	Active        bool   `json:"active"`
 }

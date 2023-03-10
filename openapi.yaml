@@ -13,6 +13,8 @@ tags:
     description: Configure everything in Slurp
   - name: slurp
     description: Dump a configured API to your target
+  - name: history
+    description: Get historic data on previous slurping
 paths:
   /api:
     post:
@@ -101,6 +103,24 @@ paths:
           description: The API slurping has been put on hold
         "404":
           description: No API with the given name
+  /api/{name}/unpause:
+    post:
+      tags:
+        - configure
+      summary: Unpause the given API
+      description: Enable slurping of the given API name
+      operationId: unpauseApi
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: The API slurping has been reactivated
+        "404":
+          description: No API with the given name
   /slurp/{name}:
     post:
       tags:
@@ -120,7 +140,22 @@ paths:
           description: Task is submitted successfully
         "404":
           description: No API with the given name
-
+  /history:
+    get:
+      tags:
+        - history
+      summary: List slurp history
+      description: List all slurp history, paginated
+      operationId: listhistory
+      responses:
+        "200":
+          description: A list of slurp history
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ApiHistory"
 servers:
   - url: https://localhost
 components:
@@ -273,3 +308,24 @@ components:
           type: string
         active:
           type: boolean
+    ApiHistory:
+      type: object
+      properties:
+        name:
+          type: string
+        date:
+          type: string
+        url:
+          type: string
+        method:
+          type: string
+        data:
+          type: string
+        with_auth:
+          type: boolean
+        with_pagination:
+          type: boolean
+        output:
+          type: string
+        data_count:
+          type: number

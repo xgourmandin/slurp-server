@@ -38,7 +38,29 @@ func (a ApiCrud) ListApi() (*[]ports.ApiResume, error) {
 			Paginated:     apiconf.PaginationConfig != nil,
 			Authenticated: apiconf.AuthConfig != nil,
 			OutputType:    outputType,
+			Active:        apiconf.Active,
 		})
 	}
 	return &resumes, nil
+}
+
+func (a ApiCrud) PauseApi(name string) error {
+	return a.toggleSlurp(name, false)
+}
+
+func (a ApiCrud) UnPauseApi(name string) error {
+	return a.toggleSlurp(name, true)
+}
+
+func (a ApiCrud) toggleSlurp(name string, activate bool) error {
+	api, err := a.Repo.GetApiConfiguration(name)
+	if err != nil {
+		return err
+	}
+	api.Active = activate
+	err = a.Repo.UpdateApiConfiguration(*api)
+	if err != nil {
+		return err
+	}
+	return nil
 }
