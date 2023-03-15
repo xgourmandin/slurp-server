@@ -116,8 +116,8 @@ github.com/valyala/fasthttp v1.44.0 h1:R+gLUhldIsfg1HokMuQjdQ5bh9nuXHPIfvkYUu9eR
 github.com/valyala/fasthttp v1.44.0/go.mod h1:f6VbjjoI3z1NDOZOv17o6RvtRSWxC77seBFc2uWtgiY=
 github.com/valyala/tcplisten v1.0.0 h1:rBHj/Xf+E1tRGZyWIWwJDiRY0zc1Js+CV5DqwacVSA8=
 github.com/valyala/tcplisten v1.0.0/go.mod h1:T0xQ8SeCZGxckz9qRXTfG43PvQ/mcWh7FwZEA7Ioqkc=
-github.com/xgourmandin/slurp v0.0.6 h1:wPSoY4a5liM1uw3WPvzkq2F1dx4wjGPvgvpkk3ozZRU=
-github.com/xgourmandin/slurp v0.0.6/go.mod h1:61S2vYbAKppv/tWCDPGnj8hSOhdzJiaFbwsddxeJKjA=
+github.com/xgourmandin/slurp v0.0.7 h1:9muQ4PiZi2PK2v4SCC06ZV8zEd/yQajmP5aBIBpuhME=
+github.com/xgourmandin/slurp v0.0.7/go.mod h1:61S2vYbAKppv/tWCDPGnj8hSOhdzJiaFbwsddxeJKjA=
 github.com/yuin/goldmark v1.2.1/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 go.opencensus.io v0.24.0 h1:y73uSU6J157QMP2kn2r30vwW1A2W2WFwSCGnAVxeaD0=
 go.opencensus.io v0.24.0/go.mod h1:vNK8G9p7aAivkbmorf4v+7Hgx+Zs0yY+0fOtgBfjQKo=
