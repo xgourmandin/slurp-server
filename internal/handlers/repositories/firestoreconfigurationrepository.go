@@ -4,6 +4,7 @@ import (
 	"cloud.google.com/go/firestore"
 	"context"
 	"google.golang.org/api/iterator"
+	"log"
 	"slurp-server/internal/core/ports"
 )
 
@@ -23,12 +24,14 @@ func (f FirestoreApiConfigurationRepository) AddApiConfiguration(configuration p
 	ctx := context.Background()
 	client, err := f.getClient(ctx)
 	if err != nil {
+		log.Printf("%v", err)
 		return err
 	}
 	defer client.Close()
 	api := client.Collection(f.ApiCollection).Doc(configuration.Name)
 	_, err = api.Create(ctx, configuration)
 	if err != nil {
+		log.Printf("%v", err)
 		return err
 	}
 	return nil
