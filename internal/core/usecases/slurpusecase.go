@@ -33,41 +33,56 @@ func (c SlurpUseCase) CreateSlurp(name string) error {
 }
 
 func createSlurpConfiguration(config ports.ApiConfiguration) configuration.ApiConfiguration {
-	authConfig := configuration.AuthenticationConfig{
-		AuthType:   config.AuthConfig.AuthType,
-		InHeader:   config.AuthConfig.InHeader,
-		TokenEnv:   config.AuthConfig.TokenEnv,
-		TokenParam: config.AuthConfig.TokenParam,
+	var authConfig *configuration.AuthenticationConfig
+	if config.AuthConfig == nil {
+		authConfig = nil
+	} else {
+		authConfig = &configuration.AuthenticationConfig{
+			AuthType:   config.AuthConfig.AuthType,
+			InHeader:   config.AuthConfig.InHeader,
+			TokenEnv:   config.AuthConfig.TokenEnv,
+			TokenParam: config.AuthConfig.TokenParam,
+		}
 	}
-	paginationConfig := configuration.PaginationConfiguration{
-		PaginationType: config.PaginationConfig.PaginationType,
-		PageParam:      config.PaginationConfig.PageParam,
-		LimitParam:     config.PaginationConfig.LimitParam,
-		PageSize:       config.PaginationConfig.PageSize,
-		NextLinkPath:   config.PaginationConfig.NextLinkPath,
+	var paginationConfig *configuration.PaginationConfiguration
+	if config.PaginationConfig == nil {
+		paginationConfig = nil
+	} else {
+		paginationConfig = &configuration.PaginationConfiguration{
+			PaginationType: config.PaginationConfig.PaginationType,
+			PageParam:      config.PaginationConfig.PageParam,
+			LimitParam:     config.PaginationConfig.LimitParam,
+			PageSize:       config.PaginationConfig.PageSize,
+			NextLinkPath:   config.PaginationConfig.NextLinkPath,
+		}
 	}
 	dataConfig := configuration.DataConfiguration{
 		DataType: config.DataConfig.DataType,
 		DataRoot: config.DataConfig.DataRoot,
 	}
-	outputConfig := configuration.OutputConfig{
-		OutputType: config.OutputConfig.OutputType,
-		FileName:   config.OutputConfig.FileName,
-		BucketName: config.OutputConfig.BucketName,
-		Project:    config.OutputConfig.Project,
-		Dataset:    config.OutputConfig.Dataset,
-		Table:      config.OutputConfig.Table,
-		Autodetect: config.OutputConfig.Autodetect,
+	var outputConfig *configuration.OutputConfig
+	if config.OutputConfig == nil {
+		outputConfig = nil
+	} else {
+		outputConfig = &configuration.OutputConfig{
+			OutputType: config.OutputConfig.OutputType,
+			FileName:   config.OutputConfig.FileName,
+			BucketName: config.OutputConfig.BucketName,
+			Project:    config.OutputConfig.Project,
+			Dataset:    config.OutputConfig.Dataset,
+			Table:      config.OutputConfig.Table,
+			Autodetect: config.OutputConfig.Autodetect,
+		}
 	}
 	return configuration.ApiConfiguration{
 		Url:                   config.Url,
 		Method:                config.Method,
-		AuthConfig:            authConfig,
-		PaginationConfig:      paginationConfig,
+		AuthConfig:            *authConfig,
+		PaginationConfig:      *paginationConfig,
 		DataConfig:            dataConfig,
 		AdditionalHeaders:     config.AdditionalHeaders,
 		AdditionalQueryParams: config.AdditionalQueryParams,
-		OutputConfig:          outputConfig,
+		OutputConfig:          *outputConfig,
 	}
 }
 
@@ -78,8 +93,8 @@ func (c SlurpUseCase) registerApiSlurpHistory(api *ports.ApiConfiguration, count
 		Url:            api.Url,
 		Method:         api.Method,
 		DataType:       api.DataConfig.DataType,
-		WithAuth:       api.AuthConfig != nil,
-		WithPagination: api.PaginationConfig != nil,
+		WithAuth:       api.AuthConfig != nil && api.AuthConfig.AuthType != "NONE",
+		WithPagination: api.PaginationConfig != nil && api.PaginationConfig.PaginationType != "NONE",
 		OutputType:     api.OutputConfig.OutputType,
 		DataCount:      count,
 	}

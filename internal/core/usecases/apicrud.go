@@ -8,11 +8,24 @@ type ApiCrud struct {
 
 func (a ApiCrud) CreateApi(config ports.ApiConfiguration) error {
 	config.Active = true
+	if config.AuthConfig == nil {
+		config.AuthConfig = &ports.AuthenticationConfig{AuthType: "NONE"}
+	}
+	if config.PaginationConfig == nil {
+		config.PaginationConfig = &ports.PaginationConfiguration{PaginationType: "NONE"}
+	}
+	if config.OutputConfig == nil {
+		config.OutputConfig = &ports.OutputConfig{OutputType: "LOG"}
+	}
 	return a.Repo.AddApiConfiguration(config)
 }
 
 func (a ApiCrud) UpdateApi(config ports.ApiConfiguration) error {
 	return a.Repo.UpdateApiConfiguration(config)
+}
+
+func (a ApiCrud) DeleteApi(name string) error {
+	return a.Repo.DeleteApiConfiguration(name)
 }
 
 func (a ApiCrud) GetApi(name string) (*ports.ApiConfiguration, error) {
