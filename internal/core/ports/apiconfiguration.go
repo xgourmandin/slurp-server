@@ -27,10 +27,15 @@ type PaginationConfiguration struct {
 }
 
 type AuthenticationConfig struct {
-	AuthType   string `json:"type" validate:"required,oneof=API_KEY"`
-	InHeader   bool   `json:"in_header"`
-	TokenEnv   string `json:"token_env"`
-	TokenParam string `json:"token_param"`
+	AuthType        string `json:"type" validate:"required,oneof=API_KEY CLIENT_CREDS"`
+	InHeader        bool   `json:"in_header"`
+	TokenEnv        string `json:"token_env"`
+	TokenParam      string `json:"token_param"`
+	AccessTokenUrl  string `json:"access_token_url"`
+	PayloadTemplate string `json:"payload_template"`
+	ClientId        string `json:"client_id"`
+	ClientSecret    string `json:"client_secret"`
+	AccessTokenPath string `json:"access_token_path"`
 }
 
 type OutputConfig struct {
