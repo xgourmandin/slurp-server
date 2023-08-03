@@ -118,6 +118,7 @@ github.com/valyala/tcplisten v1.0.0 h1:rBHj/Xf+E1tRGZyWIWwJDiRY0zc1Js+CV5DqwacVS
 github.com/valyala/tcplisten v1.0.0/go.mod h1:T0xQ8SeCZGxckz9qRXTfG43PvQ/mcWh7FwZEA7Ioqkc=
 github.com/xgourmandin/slurp v0.0.9 h1:Mmim4+xgxwXTVdTK9+lNbm9inu6O0tbIJ7jbagdqNa0=
 github.com/xgourmandin/slurp v0.0.9/go.mod h1:61S2vYbAKppv/tWCDPGnj8hSOhdzJiaFbwsddxeJKjA=
+github.com/xgourmandin/slurp v0.0.10/go.mod h1:61S2vYbAKppv/tWCDPGnj8hSOhdzJiaFbwsddxeJKjA=
 github.com/yuin/goldmark v1.2.1/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 go.opencensus.io v0.24.0 h1:y73uSU6J157QMP2kn2r30vwW1A2W2WFwSCGnAVxeaD0=
 go.opencensus.io v0.24.0/go.mod h1:vNK8G9p7aAivkbmorf4v+7Hgx+Zs0yY+0fOtgBfjQKo=
