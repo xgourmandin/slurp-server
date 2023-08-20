@@ -16,7 +16,7 @@ func (m MockRepository) AddApiConfiguration(configuration ports.ApiConfiguration
 	return nil
 }
 
-func (m MockRepository) UpdateApiConfiguration(configuration ports.ApiConfiguration) error {
+func (m MockRepository) UpdateApiConfiguration(name string, configuration ports.ApiConfiguration) error {
 	return nil
 }
 

@@ -20,8 +20,8 @@ func (a ApiCrud) CreateApi(config ports.ApiConfiguration) error {
 	return a.Repo.AddApiConfiguration(config)
 }
 
-func (a ApiCrud) UpdateApi(config ports.ApiConfiguration) error {
-	return a.Repo.UpdateApiConfiguration(config)
+func (a ApiCrud) UpdateApi(config ports.ApiConfiguration, name string) error {
+	return a.Repo.UpdateApiConfiguration(name, config)
 }
 
 func (a ApiCrud) DeleteApi(name string) error {
@@ -48,8 +48,8 @@ func (a ApiCrud) ListApi() (*[]ports.ApiResume, error) {
 			Url:           apiconf.Url,
 			Method:        apiconf.Method,
 			DataType:      apiconf.DataConfig.DataType,
-			Paginated:     apiconf.PaginationConfig != nil,
-			Authenticated: apiconf.AuthConfig != nil,
+			Paginated:     apiconf.PaginationConfig != nil && apiconf.PaginationConfig.PaginationType != "NONE",
+			Authenticated: apiconf.AuthConfig != nil && apiconf.AuthConfig.AuthType != "NONE",
 			OutputType:    outputType,
 			Active:        apiconf.Active,
 		})
@@ -71,7 +71,7 @@ func (a ApiCrud) toggleSlurp(name string, activate bool) error {
 		return err
 	}
 	api.Active = activate
-	err = a.Repo.UpdateApiConfiguration(*api)
+	err = a.Repo.UpdateApiConfiguration("", *api)
 	if err != nil {
 		return err
 	}

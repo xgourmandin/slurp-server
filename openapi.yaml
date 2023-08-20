@@ -33,22 +33,6 @@ paths:
           description: Invalid input
         "409":
           description: An API with this name already exists
-    put:
-      tags:
-        - configure
-      summary: Update an existing API configuration
-      description: "Update the parameters of an existing API configuration"
-      operationId: updateApi
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ApiConfiguration"
-      responses:
-        "404":
-          description: API not found with the given name
-        "405":
-          description: Validation exception
     get:
       tags:
         - configure
@@ -85,6 +69,35 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiConfiguration"
+    put:
+      tags:
+        - configure
+      summary: Update an existing API configuration
+      description: "Update the parameters of an existing API configuration"
+      operationId: updateApi
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApiConfiguration"
+      responses:
+        "200":
+          description: API updated successfully
+        "404":
+          description: API not found with the given name
+        "405":
+          description: Validation exception
+    delete:
+      tags:
+        - configure
+      summary: Delete an API configuration
+      description: "Delete an API configuration by name"
+      operationId: deleteApi
+      responses:
+        "200":
+          description: API deleted Successfully
+        "404":
+          description: No API with the given name found
   /api/{name}/pause:
     post:
       tags:
@@ -211,6 +224,15 @@ components:
           description: Name of the parameter containing the token value
           type: string
           example: api_key
+        access_token_url:
+          type: string
+          description: URL used to authenticate and get an Access token
+          example: https://auth.test.com
+        payload_template:
+          type: string
+          description: Payload for the authentication request against access_token_url endpoint. Gives access to two variables, ${CLIENT_ID} and ${CLIENT_SECRET} which are replaced by corresponding values extracted from the authentication secret
+          example: grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}
+
       required:
         - type
     PaginationConfiguration:

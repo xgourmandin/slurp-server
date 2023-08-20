@@ -3,6 +3,7 @@ package repositories
 import (
 	"cloud.google.com/go/firestore"
 	"context"
+	"errors"
 	"google.golang.org/api/iterator"
 	"log"
 	"slurp-server/internal/core/ports"
@@ -37,14 +38,14 @@ func (f FirestoreApiConfigurationRepository) AddApiConfiguration(configuration p
 	return nil
 }
 
-func (f FirestoreApiConfigurationRepository) UpdateApiConfiguration(configuration ports.ApiConfiguration) error {
+func (f FirestoreApiConfigurationRepository) UpdateApiConfiguration(name string, configuration ports.ApiConfiguration) error {
 	ctx := context.Background()
 	client, err := f.getClient(ctx)
 	if err != nil {
 		return err
 	}
 	defer client.Close()
-	api := client.Collection(f.ApiCollection).Doc(configuration.Name)
+	api := client.Collection(f.ApiCollection).Doc(name)
 	_, err = api.Set(ctx, configuration)
 	if err != nil {
 		return err
@@ -78,7 +79,7 @@ func (f FirestoreApiConfigurationRepository) ListApiConfigurations() (*[]ports.A
 	var result []ports.ApiConfiguration
 	for {
 		doc, err := apis.Next()
-		if err == iterator.Done {
+		if errors.Is(err, iterator.Done) {
 			break
 		}
 		if err != nil {

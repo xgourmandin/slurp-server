@@ -22,7 +22,7 @@ func (c SlurpUseCase) CreateSlurp(name string) error {
 		return nil
 	}
 	apiConfiguration := createSlurpConfiguration(*api)
-	context, err := slurp.NewContextFactory().CreateContextFromConfig(&apiConfiguration)
+	context, err := slurp.NewContextFactory().CreateContextFromConfig(&apiConfiguration, "SERVER")
 	if err != nil {
 		return err
 	}
@@ -38,15 +38,15 @@ func createSlurpConfiguration(config ports.ApiConfiguration) configuration.ApiCo
 		authConfig = nil
 	} else {
 		authConfig = &configuration.AuthenticationConfig{
-			AuthType:        config.AuthConfig.AuthType,
-			InHeader:        config.AuthConfig.InHeader,
-			TokenEnv:        config.AuthConfig.TokenEnv,
-			TokenParam:      config.AuthConfig.TokenParam,
-			AccessTokenUrl:  config.AuthConfig.AccessTokenUrl,
-			PayloadTemplate: config.AuthConfig.PayloadTemplate,
-			ClientId:        config.AuthConfig.ClientId,
-			ClientSecret:    config.AuthConfig.ClientSecret,
-			AccessTokenPath: config.AuthConfig.AccessTokenPath,
+			AuthType:           config.AuthConfig.AuthType,
+			InHeader:           config.AuthConfig.InHeader,
+			TokenSecret:        config.AuthConfig.TokenSecret,
+			TokenParam:         config.AuthConfig.TokenParam,
+			AccessTokenUrl:     config.AuthConfig.AccessTokenUrl,
+			PayloadTemplate:    config.AuthConfig.PayloadTemplate,
+			ClientIdSecret:     config.AuthConfig.ClientId,
+			ClientSecretSecret: config.AuthConfig.ClientSecret,
+			AccessTokenPath:    config.AuthConfig.AccessTokenPath,
 		}
 	}
 	var paginationConfig *configuration.PaginationConfiguration

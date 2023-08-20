@@ -17,9 +17,12 @@ var Validator = validator.New()
 func ValidateApiConfig(c *fiber.Ctx) error {
 	var errors []*IError
 	body := new(ports.ApiConfiguration)
-	c.BodyParser(&body)
+	err := c.BodyParser(&body)
+	if err != nil {
+		return err
+	}
 
-	err := Validator.Struct(body)
+	err = Validator.Struct(body)
 	if err != nil {
 		for _, err := range err.(validator.ValidationErrors) {
 			var el IError

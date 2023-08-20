@@ -34,7 +34,7 @@ func main() {
 	api := app.Group("/api")
 	api.Get("/", apiListHandler.HandleApiList)
 	api.Post("/", http.ValidateApiConfig, createApiHandler.HandleCreateApi)
-	api.Put("/", http.ValidateApiConfig, updateApiHandler.HandleUpdateApi)
+	api.Put("/:name", http.ValidateApiConfig, updateApiHandler.HandleUpdateApi)
 	api.Get("/:name", apiDetailHandler.HandleApiDetails)
 	api.Delete("/:name", deleteApiHandler.HandleDeleteApi)
 	api.Post("/:name/pause", apiPauseHandler.HandlePauseSlurp)

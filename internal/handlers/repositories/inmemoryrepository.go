@@ -18,13 +18,16 @@ func (r *InMemoryRepository) AddApiConfiguration(configuration ports.ApiConfigur
 	return nil
 }
 
-func (r *InMemoryRepository) UpdateApiConfiguration(configuration ports.ApiConfiguration) error {
-	index := r.indexOf(configuration.Name)
+func (r *InMemoryRepository) UpdateApiConfiguration(name string, configuration ports.ApiConfiguration) error {
+	index := r.indexOf(name)
 	if index == -1 {
 		return fmt.Errorf("not found")
 	}
 	r.configs = r.removeIndex(index)
-	r.AddApiConfiguration(configuration)
+	err := r.AddApiConfiguration(configuration)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

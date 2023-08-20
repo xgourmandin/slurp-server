@@ -19,7 +19,7 @@ type DataConfiguration struct {
 }
 
 type PaginationConfiguration struct {
-	PaginationType string `json:"type" validate:"required,oneof=PAGE_LIMIT OFFSET_LIMIT HATEOAS"`
+	PaginationType string `json:"type" validate:"required,oneof=NONE PAGE_LIMIT OFFSET_LIMIT HATEOAS"`
 	PageParam      string `json:"page_param"`
 	LimitParam     string `json:"limit_param"`
 	PageSize       int    `json:"page_size"`
@@ -27,9 +27,9 @@ type PaginationConfiguration struct {
 }
 
 type AuthenticationConfig struct {
-	AuthType        string `json:"type" validate:"required,oneof=API_KEY CLIENT_CREDS"`
+	AuthType        string `json:"type" validate:"required,oneof=NONE API_KEY CLIENT_CREDS"`
 	InHeader        bool   `json:"in_header"`
-	TokenEnv        string `json:"token_env"`
+	TokenSecret     string `json:"token_secret"`
 	TokenParam      string `json:"token_param"`
 	AccessTokenUrl  string `json:"access_token_url"`
 	PayloadTemplate string `json:"payload_template"`
@@ -39,7 +39,7 @@ type AuthenticationConfig struct {
 }
 
 type OutputConfig struct {
-	OutputType string `json:"type" validate:"required,oneof=FILE BUCKET BIGQUERY"`
+	OutputType string `json:"type" validate:"required,oneof=NONE FILE BUCKET BIGQUERY"`
 	FileName   string `json:"filename"`
 	BucketName string `json:"bucket"`
 	Project    string `json:"project"`
