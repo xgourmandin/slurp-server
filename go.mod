@@ -6,7 +6,7 @@ require (
 	cloud.google.com/go/firestore v1.12.0
 	github.com/go-playground/validator/v10 v10.15.1
 	github.com/gofiber/fiber/v2 v2.48.0
-	github.com/xgourmandin/slurp v0.0.14
+	github.com/xgourmandin/slurp v0.0.15
 	google.golang.org/api v0.138.0
 )
 

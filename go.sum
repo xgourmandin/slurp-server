@@ -258,6 +258,8 @@ github.com/xgourmandin/slurp v0.0.13 h1:zGxbUGWnwGmNjRzc6mafVrfvOb5XqjOTGoph8+W4
 github.com/xgourmandin/slurp v0.0.13/go.mod h1:IWyxDCqIN76x9zWhLv5eTvkM4vYiKh4stw3k2iMPpwQ=
 github.com/xgourmandin/slurp v0.0.14 h1:tw95aBVJ8uynOIMPVpxuMK/nLnJu7VGHJn5Fa2Hi8v8=
 github.com/xgourmandin/slurp v0.0.14/go.mod h1:IWyxDCqIN76x9zWhLv5eTvkM4vYiKh4stw3k2iMPpwQ=
+github.com/xgourmandin/slurp v0.0.15 h1:YEp3hahLE5KGtDf6GGO9vXHnAf48tcJzTWinX+zuTgg=
+github.com/xgourmandin/slurp v0.0.15/go.mod h1:IWyxDCqIN76x9zWhLv5eTvkM4vYiKh4stw3k2iMPpwQ=
 github.com/yuin/goldmark v1.2.1/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.4.13/go.mod h1:6yULJ656Px+3vBD8DxQVa3kxgyrAnzto9xy5taEt/CY=
 github.com/zeebo/xxh3 v1.0.2 h1:xZmwmqxHZA8AI603jOQ0tMqmBr9lPeFwGg6d+xy9DC0=

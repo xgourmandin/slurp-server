@@ -22,8 +22,9 @@ type PaginationConfiguration struct {
 	PaginationType string `json:"type" validate:"required,oneof=NONE PAGE_LIMIT OFFSET_LIMIT HATEOAS"`
 	PageParam      string `json:"page_param"`
 	LimitParam     string `json:"limit_param"`
-	PageSize       int    `json:"page_size"`
+	PageSize       int    `json:"page_size" validate:"gt=0"`
 	NextLinkPath   string `json:"next_link_path"`
+	BatchSize      int    `json:"batch_size"`
 }
 
 type AuthenticationConfig struct {
